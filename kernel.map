@@ -1,0 +1,191 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+timer               0x4               timer.o
+uartbb_tx           0x4               uartbb.o
+gpio                0x4               gpio.o
+uart                0x4               uart.o
+uartbb_rx           0x4               uartbb.o
+
+Discarded input sections
+
+ .ARM.attributes
+                0x00000000       0x14 boot.o
+ .comment       0x00000000       0x12 main.o
+ .ARM.attributes
+                0x00000000       0x35 main.o
+ .comment       0x00000000       0x12 gpio.o
+ .ARM.attributes
+                0x00000000       0x35 gpio.o
+ .comment       0x00000000       0x12 timer.o
+ .ARM.attributes
+                0x00000000       0x35 timer.o
+ .comment       0x00000000       0x12 uart.o
+ .ARM.attributes
+                0x00000000       0x35 uart.o
+ .comment       0x00000000       0x12 uartbb.o
+ .ARM.attributes
+                0x00000000       0x35 uartbb.o
+ .comment       0x00000000       0x12 bluez.o
+ .ARM.attributes
+                0x00000000       0x35 bluez.o
+ .comment       0x00000000       0x12 string.o
+ .ARM.attributes
+                0x00000000       0x35 string.o
+ .comment       0x00000000       0x12 utils.o
+ .ARM.attributes
+                0x00000000       0x35 utils.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD boot.o
+LOAD main.o
+LOAD gpio.o
+LOAD timer.o
+LOAD uart.o
+LOAD uartbb.o
+LOAD bluez.o
+LOAD string.o
+LOAD utils.o
+LOAD ../linker.ld
+                0x00008000                . = 0x8000
+                0x00008000                . = 0x8000
+
+.text           0x00008000     0x32b0
+ *(.boot)
+ .boot          0x00008000        0xc boot.o
+ *(.text.startup)
+ *(.text)
+ .text          0x0000800c        0x0 boot.o
+ .text          0x0000800c      0x6c0 main.o
+                0x0000800c                debug_char
+                0x00008034                debug_hexbyte
+                0x000080d0                debug_print
+                0x000080f0                main
+ .text          0x000086cc      0x9bc gpio.o
+                0x000086cc                gpio_init
+                0x000086f4                gpio_config
+                0x00008808                gpio_set
+                0x00008874                gpio_clr
+                0x000088e0                gpio_toggle
+                0x00008920                gpio_read
+                0x00008994                gpio_pull
+                0x00008aac                gpio_init_data
+                0x00008b28                gpio_put_data
+                0x00008b84                gpio_get_data
+                0x00008bb8                gpio_setevent
+                0x00008fa8                gpio_rstevent
+                0x00009014                gpio_chkevent
+ .text          0x00009088      0x2c4 timer.o
+                0x00009088                timer_init
+                0x000090dc                timer_read
+                0x00009108                timer_wait
+                0x00009148                timer_setirq
+                0x000091c0                timer_active
+                0x00009238                timer_load
+                0x00009268                timer_reload
+                0x0000929c                timer_irq_clear
+                0x000092c8                timer_value
+                0x000092f4                timer_irq_raw
+                0x00009320                timer_irq_masked
+ .text          0x0000934c      0x374 uart.o
+                0x0000934c                uart_init
+                0x00009488                uart_send
+                0x000094d8                uart_incoming
+                0x00009508                uart_read
+                0x00009554                uart_purge
+                0x00009578                uart_print_hex_byte
+                0x00009614                uart_print_hex_uint
+                0x00009678                uart_print
+ .text          0x000096c0      0x424 uartbb.o
+                0x000096c0                uartbb_init
+                0x00009764                uartbb_send
+                0x0000981c                uartbb_find_stop
+                0x000098b8                uartbb_read
+                0x0000999c                uartbb_print_hex_byte
+                0x00009a38                uartbb_print_hex_uint
+                0x00009a9c                uartbb_print
+ .text          0x00009ae4      0x4f4 bluez.o
+                0x00009ae4                bt_timeout
+                0x00009b50                bt_replies
+                0x00009c54                bt_cmdwait
+                0x00009d54                bt_init
+                0x00009ef8                bt_send
+                0x00009f18                bt_print
+                0x00009f38                bt_scan
+                0x00009f50                bt_read
+                0x00009fb4                bt_purge
+ .text          0x00009fd8      0x6f4 string.o
+                0x00009fd8                strword
+                0x0000a0ec                strncmp
+                0x0000a208                strncpy
+                0x0000a34c                is_whitespace
+                0x0000a398                trimws
+                0x0000a564                uppercase
+                0x0000a5c4                str2upper
+                0x0000a618                lowercase
+                0x0000a678                str2lower
+ .text          0x0000a6cc      0x978 utils.o
+                0x0000a6cc                __aeabi_uidiv
+                0x0000a7d0                __aeabi_uidivmod
+                0x0000a8d4                __aeabi_idiv
+                0x0000a988                __aeabi_idivmod
+                0x0000a9f0                str2uint
+                0x0000aabc                str2int
+                0x0000ab84                str2float
+                0x0000ad04                uint2str
+                0x0000ae20                int2str
+                0x0000aed0                float2str
+ *(.rodata*)
+ .rodata        0x0000b044      0x240 main.o
+ .rodata        0x0000b284       0x2c bluez.o
+ *(.boot)
+ *(.text.startup)
+ *(.text)
+ *(.rodata*)
+
+.data           0x0000b2b0       0x14
+ *(COMMON)
+ COMMON         0x0000b2b0        0x4 gpio.o
+                0x0000b2b0                gpio
+ COMMON         0x0000b2b4        0x4 timer.o
+                0x0000b2b4                timer
+ COMMON         0x0000b2b8        0x4 uart.o
+                0x0000b2b8                uart
+ COMMON         0x0000b2bc        0x8 uartbb.o
+                0x0000b2bc                uartbb_tx
+                0x0000b2c0                uartbb_rx
+ *(.data)
+ .data          0x0000b2c4        0x0 boot.o
+ .data          0x0000b2c4        0x0 main.o
+ .data          0x0000b2c4        0x0 gpio.o
+ .data          0x0000b2c4        0x0 timer.o
+ .data          0x0000b2c4        0x0 uart.o
+ .data          0x0000b2c4        0x0 uartbb.o
+ .data          0x0000b2c4        0x0 bluez.o
+ .data          0x0000b2c4        0x0 string.o
+ .data          0x0000b2c4        0x0 utils.o
+ *(.bss)
+ .bss           0x0000b2c4        0x0 boot.o
+ .bss           0x0000b2c4        0x0 main.o
+ .bss           0x0000b2c4        0x0 gpio.o
+ .bss           0x0000b2c4        0x0 timer.o
+ .bss           0x0000b2c4        0x0 uart.o
+ .bss           0x0000b2c4        0x0 uartbb.o
+ .bss           0x0000b2c4        0x0 bluez.o
+ .bss           0x0000b2c4        0x0 string.o
+ .bss           0x0000b2c4        0x0 utils.o
+ *(COMMON)
+ *(.data)
+ *(.bss)
+
+/DISCARD/
+ *(*)
+ *(*)
+OUTPUT(main.elf elf32-littlearm)
